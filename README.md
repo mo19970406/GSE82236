@@ -44,10 +44,11 @@ diff_gene_deseq2 <-subset(res, padj < 0.05 & abs(log2FoldChange) > 1)
 write.csv(diff_gene_deseq2,file = 'DEG.csv')
 
 # 绘制热图
-# 选择差异最显著的前12个miRNA绘制热图
+
+# 从mydata中提取差异最显著的前12个miRNA的表达数据
 library('pheatmap')
 diff_miRNA <- row.names(data_res)[1:12] # 提取前12的差异miRNA
-# 从mydata中提取差异最显著的前12个miRNA的表达数据
+# 选择差异最显著的前12个miRNA绘制热图
 myvars <- row.names(mirna) %in% diff_miRNA
 heatmap_data <- mirna[myvars,]
 mymatrix <- as.matrix(heatmap_data)
