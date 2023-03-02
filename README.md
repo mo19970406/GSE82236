@@ -5,24 +5,24 @@ library(DESeq2)
 library(GEOquery)
 mirna=read.table('GSE82236_miRNA_counts.txt.gz',header=T,row.names=1,sep="\t")
 mirna[1:4,1:4]
-#对所有数四舍五入取整
+# 对所有数四舍五入取整
 mirna=round(mirna,0)
 head(mirna)
 mirna_matrix=as.matrix(mirna)
-#进行分组
+# 进行分组
 org=factor(c(rep('CC.CR',3),rep('CC',3)))
 coldata=data.frame(row.names = colnames(mirna),org)
 
 #source("http//biocondutor.org/biocLite.R")
 #biocLite('DESeq2')
-#差异表达分析
+# 差异表达分析
 dds=DESeqDataSetFromMatrix(mirna_matrix,DataFrame(coldata),design = ~org)
-#标准化
+# 标准化
 dds=DESeq(dds)
 res=results(dds,alpha = 0.001)
 res=res[order(res$padj),]
 summary(res)
-#输出结果
+# 输出结果
 write.csv(res,file = 'E:\\heatmap\\new\\results.csv')
 
 # 绘制MA-PLOT
