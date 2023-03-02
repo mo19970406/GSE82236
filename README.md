@@ -25,11 +25,11 @@ summary(res)
 #输出结果
 write.csv(res,file = 'E:\\heatmap\\new\\results.csv')
 
-###绘制MA-PLOT
+# 绘制MA-PLOT
 plotMA(res,ylim=c(-3,3))
 #绘制火山图
 plot(res$log2FoldChange,res$padj)
-#用ggplot2画图
+# 用ggplot2画图
 library(ggplot2)
 data_res <- as.data.frame(res)
 data_res$color <- ifelse(data_res$padj<0.05&abs(data_res$log2FoldChange)>1,'LFC>1,p<0.05',ifelse(abs(data_res$log2FoldChange)>1,'LFC>1,p>0.05','LFC<1,p>0.05'))
@@ -39,11 +39,11 @@ ggplot(data_res,aes(log2FoldChange,padj,col=factor(color))) +
   theme(panel.grid.minor = element_blank(),panel.grid.major = element_blank())+
   geom_vline(xintercept=c(-2,2) ,linetype=4 ) +
   scale_color_manual(name = "", values = c("red", "green", "black"), limits = c("LFC>1,p<0.05", "LFC>1,p>0.05", "LFC<1,p>0.05")) 
-#提取差异基因并写出
+# 提取差异基因并写出
 diff_gene_deseq2 <-subset(res, padj < 0.05 & abs(log2FoldChange) > 1)
 write.csv(diff_gene_deseq2,file = 'DEG.csv')
 
-#绘制热图
+# 绘制热图
 # 选择差异最显著的前12个miRNA绘制热图
 library('pheatmap')
 diff_miRNA <- row.names(data_res)[1:12] # 提取前12的差异miRNA
